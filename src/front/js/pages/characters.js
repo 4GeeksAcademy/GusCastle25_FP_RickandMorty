@@ -5,26 +5,25 @@ import { Context } from "../store/appContext";
 
 export const Characters = props => {
 	const { store, actions } = useContext(Context);
-	const [character, setCharacter] = useState({})
+	const [people, setPeople] = useState({}); // Inicializamos como null
 	const params = useParams();
-
+	
 	useEffect(() => {
-		fetch("https://rickandmortyapi.com/api/character" + params.character_id, { method: "GET" })
-			.then((response) => response.json())
-			.then((data) => setCharacter(data.resuls.properties))
-			.catch((error) => console.error(error));
-		console.log("se llama los personajes")
-	}, [])
-	console.log(params)
+			fetch("https://rickandmortyapi.com/api/character", { method: "GET" })
+				.then((response) => response.json())
+				.then((data) => setPeople({ character: data.results }) )
+				.catch((error) => console.error(error));
+			console.log("se cargo personajes desde vista")
+		}, [])
+
 	return (
 		<div className="jumbotron text-white">
-			<h1 className="display-4">{character.name}: {params.character_id}</h1>
-
+			<h1 className="display-4">{props.title}: {props.id}</h1>
 			<hr className="my-4" />
-			<p>name: {character.name}</p>
-			<p>status: {character.status}</p>
-			<p>species: {character.species}</p>
-			<p>gender: {character.gender}</p>
+			<p>name: {people.title}</p>
+			<p>status: {people.status}</p>
+			<p>species: {people.species}</p>
+			<p>gender: {people.gender}</p> 
 			<Link to="/">
 				<span className="btn btn-primary btn-lg" href="#" role="button">
 					Back home

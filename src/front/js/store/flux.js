@@ -1,12 +1,30 @@
 import { SignUp } from "../pages/signup";
+import { element } from "prop-types";
 import { Characters } from "../component/Characters";
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			result: [],
-			character: [],
-			location: [],
+			results: [],
+			info: [],
+			character: [
+				{
+					"id": 1,
+					"name": "Rick Sanchez",
+					"status": "Alive",
+					"species": "Human",
+					"type": "",
+					"gender": "Male"
+				}
+			],
+			location: [
+				{
+					"id": 1,
+					"name": "Earth (C-137)",
+					"type": "Planet",
+					"dimension": "Dimension C-137"
+				}
+			],
 			message: null,
 			demo: [
 				{
@@ -29,6 +47,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
 			},
+
+			loadSomeData: () => {
+				
+			// fetch().then().then(data => setStore({ "foo": data.bar }))
+				
+			fetch("https://rickandmortyapi.com/api/character", { method: "GET" })
+				.then((response) => response.json())
+				.then((data) => setStore({ character: data.results }))
+				.catch((error) => console.error(error));
+			console.log("se cargo desde flux")
+
+			fetch("https://rickandmortyapi.com/api/location", { method: "GET" })
+				.then((response) => response.json())
+				.then((data) => setStore({ location: data.results }))
+				.catch((error) => console.error(error));
+			console.log("se cargo desde flux ")
+		},
 
 			SignUp: (email, password) => {
 				console.log('signup desde Flux')
@@ -108,10 +143,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				fetch("https://vigilant-winner-699qjx99rgqp25rj-3001.app.github.dev/api/login", requestOptions)
 					.then(response => {
-						if(response.ok) {
-							setStore({auth: true, email: email})
+						if (response.ok) {
+							setStore({ auth: true, email: email })
 						} else {
-							throw new Error("Email or password wrong"); 
+							throw new Error("Email or password wrong");
 						}
 						return response.json()
 					})
@@ -140,6 +175,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ auth: false })
 			},
 
+			changeMessage: (titulo) => {
+				setStore({ message: titulo });
+				setStore({ misCharacters: "1" + "2" });
+				console.log("changeMessage desde flux" + titulo)
+			},
+
 			addFavorites: (name) => {
 				const currentfavorites = getStore().favorites
 				const newfavorites = [...currentfavorites, name];
@@ -166,6 +207,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
+
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
@@ -177,25 +219,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return elm;
 				});
 
-				loadSomeData: () => {
-					/**
-						fetch().then().then(data => setStore({ "foo": data.bar }))
-					*/
-					fetch("https://rickandmortyapi.com/api/character", { method: "GET" })
-						.then((response) => response.json())
-						.then((data) => setStore({ character: data.results }))
-						.catch((error) => console.error(error));
-					console.log("se cargo desde flux ")
-	
-					fetch("https://rickandmortyapi.com/api/location", { method: "GET" })
-						.then((response) => response.json())
-						.then((data) => setStore({ location: data.results }))
-						.catch((error) => console.error(error));
-					console.log("se cargo desde flux ")
-					},
-
-				//reset the global store
-				setStore({ demo: demo });
+		//reset the global store
+		setStore({ demo: demo });
 			}
 		}
 	};

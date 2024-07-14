@@ -5,21 +5,20 @@ import { Context } from "../store/appContext";
 
 export const Location = props => {
     const { store, actions } = useContext(Context);
-    const [location, setLocation] = useState({})
+    const [location, setLocation] = useState({});
     const params = useParams();
 
     useEffect(() => {
-        fetch("https://rickandmortyapi.com/api/location" + params.location_id, { method: "GET" })
+        fetch("https://rickandmortyapi.com/api/location", { method: "GET" })
             .then((response) => response.json())
-            .then((data) => setLocation(data.result.properties))
+            .then((data) => setLocation(data.results))
             .catch((error) => console.error(error));
         console.log("se cargo vista Location")
     }, [])
-    console.log(params)
+
     return (
         <div className="jumbotron text-white">
-            <h1 className="display-4">{location.name}: {params.location_id}</h1>
-
+            <h1 className="display-4">{props.title}: {props.id}</h1>
             <hr className="my-4" />
             <p>name: {location.name}</p>
             <p>type: {location.type}</p>
