@@ -141,7 +141,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					redirect: "follow"
 				};
 
-				fetch("https://vigilant-winner-699qjx99rgqp25rj-3001.app.github.dev/api/login", requestOptions)
+				fetch(process.env.BACKEND_URL + "api/login", requestOptions)
 					.then(response => {
 						if (response.ok) {
 							setStore({ auth: true, email: email })
@@ -188,10 +188,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 
 			removeFavorite: (element) => {
-				const store = getStore();
-				console.log(store.favorites)
 				console.log(element)
-				const newfavorites = store.favorites.filter(favorite => favorite.uid !== element.uid || favorite.type !== element.type);
+				const store = getStore();
+				const newfavorites = store.favorites.filter(favorite => favorite.id !== element.id || favorite.type !== element.type);
 				setStore({ favorites: newfavorites });
 			},
 

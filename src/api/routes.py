@@ -49,7 +49,7 @@ def login():
 def signup():
     body = request.get_json()
     print(body)
-    user = User.query.filter(email=body["email"]).first()
+    user = User.query.filter_by(email=body["email"]).first()
     print(user)
     if user is None:
         user =User(email=body["email"], password=body["password"], is_active=True)

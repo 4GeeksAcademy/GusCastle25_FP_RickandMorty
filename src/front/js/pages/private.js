@@ -18,6 +18,7 @@ export const Private = () => {
 			actions.verifyToken();
 		}
 		setLoading(false);
+		actions.loadSomeData()
 	}, []);
 
 	if (loading) {

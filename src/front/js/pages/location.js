@@ -9,16 +9,16 @@ export const Location = props => {
     const params = useParams();
 
     useEffect(() => {
-        fetch("https://rickandmortyapi.com/api/location", { method: "GET" })
+        fetch("https://rickandmortyapi.com/api/location/" + params.theid, { method: "GET" })
             .then((response) => response.json())
-            .then((data) => setLocation(data.results))
+            .then((data) => setLocation(data))
             .catch((error) => console.error(error));
         console.log("se cargo vista Location")
     }, [])
 
     return (
         <div className="jumbotron text-white">
-            <h1 className="display-4">{props.title}: {props.id}</h1>
+            <h1 className="display-4">{location.name}: {location.id}</h1>
             <hr className="my-4" />
             <p>name: {location.name}</p>
             <p>type: {location.type}</p>
