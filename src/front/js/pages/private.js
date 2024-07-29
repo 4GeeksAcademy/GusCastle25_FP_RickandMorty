@@ -4,7 +4,7 @@ import { Characters } from "../component/Characters";
 import { Location } from "../component/Location";
 import { Navigate, Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
-
+import { Search } from "../component/search";
 
 export const Private = () => {
 	const { store, actions } = useContext(Context);
@@ -31,6 +31,7 @@ export const Private = () => {
 
 	return (
 		<div className="text-center mt-5">
+			<Search />
 			<h1 className="text-center mt-5 text-white">Characters</h1>
 			<div className="row flex-row flex-nowrap overflow-auto mx-3">
 				{store.character.map((character) => <Characters key={character.id} id={character.id} title={character.name} />)}
@@ -63,9 +64,9 @@ export const Private = () => {
 				</Link>
 			</div>
 		</div>
-			);
+	);
 };
 
-			Private.propTypes = {
-				match: PropTypes.object
+Private.propTypes = {
+	match: PropTypes.object
 };

@@ -207,6 +207,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
+			search: (searchTerm) => {
+                const store = getStore();
+            
+                let filteredCharacters = [];
+                let filteredLocation = [];
+            
+                if (searchTerm) {
+                    filteredCharacters = store.character.filter(character =>
+                        character.name.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+            
+                    filteredLocation = store.location.filter(nave =>
+                        nave.name.toLowerCase().includes(searchTerm.toLowerCase())
+                    );
+            
+                }
+            
+                setStore({
+                    filteredCharacters: filteredCharacters,
+                    filteredLocation: filteredLocation,
+                });
+            },
+
 			changeColor: (index, color) => {
 				//get the store
 				const store = getStore();
