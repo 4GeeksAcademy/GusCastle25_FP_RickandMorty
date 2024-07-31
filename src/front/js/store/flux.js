@@ -40,7 +40,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			],
 			auth: false,
 			misCharacters: [],
-			favorites: []
+			favorites: [],
+			id: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -152,6 +153,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					})
 					.then(data => {
 						localStorage.setItem("token", data.access_token)
+						setStore({id: data.user_id})
 					})
 					.catch((error) => console.error(error));
 			},
@@ -207,28 +209,49 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			search: (searchTerm) => {
-                const store = getStore();
+			deleteUser: (id) => {
+				fetch(process.env.BACKEND_URL + `/api/deleteuser/${id}`, {
+					method: 'DELETE',
+					headers: {
+					  'Content-Type': 'application/json'
+					}
+				  })
+					.then(response => {
+					  if (!response.ok) {
+						throw new Error('Network response was not ok');
+					  }
+					  return response.json();
+					})
+					.then(data => {
+					  console.log('Success:', data);
+					})
+					.catch(error => {
+					  console.error('Error:', error);
+					});
+			},
+
+			// search: (searchTerm) => {
+            //     const store = getStore();
             
-                let filteredCharacters = [];
-                let filteredLocation = [];
+            //     let filteredCharacters = [];
+            //     let filteredLocation = [];
             
-                if (searchTerm) {
-                    filteredCharacters = store.character.filter(character =>
-                        character.name.toLowerCase().includes(searchTerm.toLowerCase())
-                    );
+            //     if (searchTerm) {
+            //         filteredCharacters = store.character.filter(character =>
+            //             character.name.toLowerCase().includes(searchTerm.toLowerCase())
+            //         );
             
-                    filteredLocation = store.location.filter(nave =>
-                        nave.name.toLowerCase().includes(searchTerm.toLowerCase())
-                    );
+            //         filteredLocation = store.location.filter(nave =>
+            //             nave.name.toLowerCase().includes(searchTerm.toLowerCase())
+            //         );
             
-                }
+            //     }
             
-                setStore({
-                    filteredCharacters: filteredCharacters,
-                    filteredLocation: filteredLocation,
-                });
-            },
+            //     setStore({
+            //         filteredCharacters: filteredCharacters,
+            //         filteredLocation: filteredLocation,
+            //     });
+            // },
 
 			changeColor: (index, color) => {
 				//get the store
@@ -239,7 +262,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const demo = store.demo.map((elm, i) => {
 					if (i === index) elm.background = color;
 					return elm;
-				});
+				});			
 
 		//reset the global store
 		setStore({ demo: demo });

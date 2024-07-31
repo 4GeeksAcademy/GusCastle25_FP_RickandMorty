@@ -23,7 +23,7 @@ export const Location = props => {
             <p>name: {location.name}</p>
             <p>type: {location.type}</p>
             <p>dimension: {location.dimension}</p>
-            <p>residents: {location.residents}</p>
+            <p>created: {location.created}</p>
             <Link to="/">
                 <span className="btn btn-primary btn-lg" href="#" role="button">
                     Back home

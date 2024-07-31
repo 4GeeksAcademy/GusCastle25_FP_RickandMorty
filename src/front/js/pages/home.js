@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { Navigate } from "react-router-dom";
 import Login from "./login";
 import "../../styles/home.css";
+import { Demo } from "./demo";
 
 export const Home = () => {
     const { store, actions } = useContext(Context);
@@ -36,9 +37,13 @@ export const Home = () => {
     }
 
     return (
-        <div className="text-center mt-5">
-            <Login />
-            
-        </div>
+        <div className="row">
+            <div className="col-md-10">
+                <Demo />
+            </div>
+            <div className="col-md-2 text-center mt-3">
+                <Login />
+            </div>
+        /</div>
     );
 };

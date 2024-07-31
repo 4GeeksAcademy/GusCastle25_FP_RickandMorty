@@ -135,9 +135,17 @@
     align-self: center;
   }
 
-.card {
-    background-image: url('https://cdn.pixabay.com/photo/2016/01/27/15/25/space-1164579_1280.png');
+  .card {
+    width: 300px; /* Ajusta el tamaño de la tarjeta según tus necesidades */
+    height: 400px; /* Ajusta el tamaño de la tarjeta según tus necesidades */
+    background-image: url('https://i.pinimg.com/736x/a0/0e/53/a00e530bb010fe9c8502364eee83e8bf.jpg');
+    background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+    background-position: center; /* Centra la imagen */
+    border-radius: 8px; /* Opcional: redondear las esquinas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: añadir sombra */
+    overflow: hidden; /* Asegura que el contenido no se desborde */
 }
+
 .index-btn {
     position: fixed;
     bottom: 20px;
@@ -173,4 +181,51 @@ form {
    right: 24px;
    top: 50%;
    transform: translateY(-50%);
+}
+h1, #filters{
+  text-align: center;
+  position: relative;
+  
+}
+#filters input, #name-filters #status-filter {
+  padding: 8px 16px;
+  margin: 10px;
+  border: 0;
+  font-size: 18px;
+  border-radius: 5px;
+  max-width: 230px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); 
+  border: 2px solid rgba(255, 255, 255, 0.3); 
+  transition: transform 0.3s ease; 
+} 
+
+.container{
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;   
+}
+
+#characters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.character-card {
+  width: 200px;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 8px;
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  border-radius: 8px; /* Opcional: redondear las esquinas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: añadir sombra */
+  overflow: hidden; /* Asegura que el contenido no se desborde */
+
+  
+}
+
+.character-card img{
+  width: 100%;
 }

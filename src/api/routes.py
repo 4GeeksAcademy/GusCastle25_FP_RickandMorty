@@ -43,7 +43,7 @@ def login():
         return jsonify({"message":"Email not found"}), 401
     
     access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
+    return jsonify(access_token=access_token, user_id=user.id)
 
 @api.route('/signup', methods=['POST'])
 def signup():
@@ -62,6 +62,18 @@ def signup():
     else:
         return jsonify({"message":"The user already exists"}), 401
     
+@api.route('/deleteuser/<int:user_id>', methods=['DELETE'])
+def deleteuser(user_id):
+    try: 
+        user=User.query.get(user_id)
+        if user: 
+            db.session.delete(user)
+            db.session.commit()
+            return jsonify({"mensaje": "Usuario eliminado"}), 200
+        else:
+            return jsonify({"message":"Usuario no encontrado"}), 404
+    except Exception as e:
+        return jsonify({"mensaje": str(e)}), 500
 
 
 @api.route("/protected", methods=["GET"])

@@ -1,53 +1,78 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import { Characters } from "../component/Characters";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Context } from "../store/appContext";
 
 export const Demo = () => {
-	const { store, actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
 
-	return (
-		<div className="text-center mt-5">
-			<h1 className="text-center mt-5 text-white">Characters</h1>
-			<div className="row flex-row flex-nowrap overflow-auto mx-3">
-				{store.character.map((item) => <Characters key={item.id} id={item.id} title={item.name} />)}
-			</div>
-			<h1 className="text-center mt-5 text-white">Location</h1>
-			<div className="row flex-row flex-nowrap overflow-auto mx-3">
-				{store.location.map((item) => <Location key={item.uid} uid={item.uid} title={item.name} />)}
-			</div>
-		
-			{/* <div className="container">
-				<ul className="list-group">
-					{store.demo.map((item, index) => {
-						return (
+    const [characters, setCharacters] = useState([]);
+    const [nameFilter, setNameFilter] = useState("");
+    const [statusFilter, setStatusFilter] = useState("");
 
-							<li
-								key={index}
-								className="list-group-item d-flex justify-content-between"
-								style={{ background: item.background }}>
-								<Link to={"/single/" + index}>
-									<span>Link to: {item.title}</span>
-								</Link>
-								{// Conditional render example
-									// Check to see if the background is orange, if so, display the message
-									item.background === "orange" ? (
-										<p style={{ color: item.initial }}>
-											Check store/flux.js scroll to the actions to see the code
-										</p>
-									) : null}
-								<button className="btn btn-success" onClick={() => actions.changeColor(index, "orange")}>
-									Change Color
-								</button>
-							</li>
-						);
-					})}
-				</ul>
-				<br />
-				<Link to="/">
-					<button className="btn btn-primary">Back home</button>
-				</Link>
-			</div>; */}
-		</div>
-		);
+    const charactersEl = useRef(null);
+
+    useEffect(() => {
+        // Función para obtener personajes desde la API
+        const getCharacters = async (name, status) => {
+            let url = 'https://rickandmortyapi.com/api/character/';
+
+            if (name || status) {
+                url += '?';
+                if (name) {
+                    url += `name=${name}&`;
+                }
+                if (status) {
+                    url += `status=${status}`;
+                }
+            }
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            return data.results;
+        };
+
+        // Función para renderizar personajes en el DOM
+        const displayCharacters = async (name, status) => {
+            const characters = await getCharacters(name, status);
+            setCharacters(characters);
+        };
+
+        displayCharacters(nameFilter, statusFilter);
+    }, [nameFilter, statusFilter]);
+
+    return (
+        <div>
+            <div className="text-center mt-5">
+                <input
+                    className="text-center mx-2"
+                    id="name-filter"
+                    type="text"
+                    value={nameFilter}
+                    onChange={(e) => setNameFilter(e.target.value)}
+                    placeholder="Filter by name"
+                />
+                <select
+                    id="status-filter"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                >
+                    <option value="">All</option>
+                    <option value="alive">Alive</option>
+                    <option value="dead">Dead</option>
+                    <option value="unknown">Unknown</option>
+                </select>
+            </div>
+            <div id="characters" ref={charactersEl}>
+                {characters.map((character) => (
+                    <div key={character.id} className="character-card text-center mt-5">
+                        <p>{character.status}</p>
+                        <img src={character.image} className="img-fluid rounded-pill" alt={character.name} />
+                        <h2>{character.name}</h2>
+                        {/* <p>Species: {character.species}</p> */}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
+

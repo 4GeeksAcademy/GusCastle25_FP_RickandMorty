@@ -5,7 +5,6 @@ import { Context } from "../store/appContext";
 import { Private } from "./private";
 
 
-
 const Login = () => {
 	const { store, actions } = useContext(Context);
 	const [email, setEmail] = useState('')
