@@ -31,27 +31,29 @@ export const Navbar = () => {
                 <a href="https://www.linkedin.com/in/gustavo-castillo-hernández-248a101b0/" className="star-wars-link"><i className="fa-brands fa-linkedin"></i></a>
             </div>
             <div className="ml-auto text-white">
-                <div className="dropdown" onClick={handleDropdown}>
-                    <button className="btn btn-primary btn-outline-success dropdown-toggle" type="button">
-                        Favorites <span className="badge badge-light">{store.favorites.length}</span>
-                    </button>
-                    {dropdownOpen && (
-                        <div className="dropdown-menu dropdown-menu-right" style={{ display: "block" }}>
-                            {store.favorites.length > 0 ? (
-                                store.favorites.map((item, index) => (
-                                    <div key={index} className="dropdown-item d-flex justify-content-between align-items-center">
-                                        <Link to={`/${item.type}/${item.id}`}>{item.title}</Link>
-                                        <button className="btn btn-outline-danger btn-sm" onClick={() => actions.removeFavorite(item)}>
-                                            <i className="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                ))
-                            ) : (
-                                <span className="dropdown-item">No Favorites</span>
-                            )}
-                        </div>
-                    )}
-                </div>
+                {store.auth && (
+                    <div className="dropdown" onClick={handleDropdown}>
+                        <button className="btn btn-primary btn-outline-success dropdown-toggle" type="button">
+                            Favorites <span className="badge badge-light">{store.favorites.length}</span>
+                        </button>
+                        {dropdownOpen && (
+                            <div className="dropdown-menu dropdown-menu-right" style={{ display: "block" }}>
+                                {store.favorites.length > 0 ? (
+                                    store.favorites.map((item, index) => (
+                                        <div key={index} className="dropdown-item d-flex justify-content-between align-items-center">
+                                            <Link to={`/${item.type}/${item.id}`}>{item.title}</Link>
+                                            <button className="btn btn-outline-danger btn-sm" onClick={() => actions.removeFavorite(item)}>
+                                                <i className="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <span className="dropdown-item">No Favorites</span>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </nav>
     );
